@@ -26,23 +26,7 @@ i. Fecha de cierre de la tarjeta.
 j. Fecha de vencimiento del crédito.
 k. Historial de consumos de la tarjeta de crédito. */
 
-let tarjetaCreditoId = 0
-/*class CreditCard {
-    constructor(numeroCredito, proveedorTarjeta, vencimientoTarjeta, codigoSeguridad, nombreTarjeta, cierre, vencimientoCredito) {
-        this.id = CreditCardId
-        CreditCardId++
-        this.numeroCredito = numeroCredito
-        this.proveedorTarjeta = proveedorTarjeta
-        this.vencimientoTarjeta = vencimientoTarjeta
-        this.codigoSeguridad = codigoSeguridad
-        this.nombreTarjeta = nombreTarjeta
-        this.cierre = cierre
-        this.vencimientoCredito= vencimientoCredito
-        this.saldo = 0
-        this.interes = 1
-        this.historial = []
-    }
-}*/
+
 
 let creditsCardsId = 1;
 let cardsNumbers = 100000;

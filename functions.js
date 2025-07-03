@@ -137,7 +137,7 @@ function encontrarMovimientoTD(idDebitCard) {
         for (let j = 0; j < clients[i].savingsBanks.length; j++) {
             for (let k = 0; clients[i].savingsBanks[j].debitCards.length > k; k++) {
                 if (clients[i].savingsBanks[j].debitCards[k].id == idDebitCard) {
-                    return clients[i].savingsBanks[j].debitCards[k].historialConsumos;
+                    return clients[i].savingsBanks[j].debitCards[k].consumptions;
                 }
             }
         }

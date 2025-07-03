@@ -23,7 +23,7 @@ class DebitCard {
         this.fechaVencimiento = fechaVencimiento;
         this.codigoSeguridad = codigoSeguridad;
         this.nombreTarjeta = nombreTarjeta;
-        this.historialConsumos = [];
+        this.consumptions = [];
     }
 }
 
