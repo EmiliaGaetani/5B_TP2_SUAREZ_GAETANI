@@ -11,7 +11,7 @@ g. Alias.
 h. CBU (Clave Bancaria Uniforme).*/
 
 
-let savingsBanksId  = 1;
+let savingsBanksId = 1;
 let cbuCounter = 1000;
 class SavingsBank {
 
@@ -49,10 +49,11 @@ class SavingsBank {
         let totalD = (this.limit - this.overdraft)
         if (this.currency == "USD") {
             if (this.saldo >= monto) {
+                this.saldo -= monto
                 return true
             } else {
                 return false
-            } 
+            }
 
         } else {
             if (this.saldo >= monto) {
@@ -77,28 +78,52 @@ class SavingsBank {
     c. Este método devuelve el saldo que hay en la caja de ahorro luego de haber realizado el
     ingreso de dinero o -1 si no se puede ingresar dinero.*/
 
-    ingresoCA(monto){
-        if(this.currency == "ARS"){
-            if(this.overdraft > 0){
-                if(this.overdraft <= monto) {                    
-                    this.overdraft = this.overdraft - monto
-                    return this.saldo
-                }
-                else {
+    ingresoCA(monto) {
+        if (monto <= 0) {
+            return -1;
+        }
+
+        if (this.currency === "ARS") {
+            if (this.overdraft > 0) {
+                if (monto >= this.overdraft) {
                     monto -= this.overdraft;
                     this.overdraft = 0;
-                    this.saldo = this.saldo + monto
-                    return this.saldo
+                    this.saldo += monto;
+                } else {
+                    this.overdraft -= monto;
+                    monto = 0;
                 }
+                return this.saldo;
+            } else {
+                this.saldo += monto;
+                return this.saldo;
             }
-        }else {
-            this.saldo = this.saldo + monto
-            return this.saldo
+        } else {
+            this.saldo += monto;
+            return this.saldo;
         }
-        return -1;
     }
 
-}
+    /*21) Agregar a las clases SavingsBank, CreditCard y DebitCard un método para registrar un movimiento
+    realizado.
+    a. El método recibe tres o cuatro parámetros:
+    i. El nombre del tercero involucrado en el movimiento.
+    ii. El monto del movimiento realizado (puede ser positivo o negativo, depende de si fue
+    un gasto o una acreditación de dinero).
+    iii. La fecha del movimiento.
+    iv. En caso de ser un movimiento con tarjeta de crédito, la cantidad de cuotas.
+    b. Por cada movimiento que se realice en una tarjeta de crédito se debe sumar el monto al
+    parámetro "saldo" de la tarjeta de crédito correspondiente.
+    c. En caso de tarjetas (tanto débito como crédito) se debe verificar que la tarjeta no esté
+    vencida antes de intentar registrar un movimiento.
+    d. Este método devuelve true si se almacena el movimiento y false en caso contrario.*/
+
+    registrarMovimiento(nombreTercero, monto, fecha) {
+        const mov = new Movement(fecha, nombreTercero, monto);
+        this.movements.push(mov);
+        return true;
+    }
+}    
 
 
 

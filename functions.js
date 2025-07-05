@@ -143,7 +143,7 @@ function encontrarMovimientoTD(idDebitCard) {
         }
         return [];
     }
-} 
+}
 
 /*17) Implementar una función para encontrar los movimientos de una determinada tarjeta de crédito a
 partir del ID de la tarjeta. La función recibe como parámetro el ID de la tarjeta de crédito y devuelve
@@ -160,5 +160,124 @@ function encontrarMovimientoTC(creditsCardsId) {
         }
     }
     return [];
+
+
+    /*23) Implementar una función para realizar una transferencia de dinero de un cliente a otro.
+    a. La forma de llevar a cabo esto es utilizando el método de extracción en la caja de ahorros
+    correspondiente en el cliente origen y el método de ingreso en la caja de ahorros
+    correspondiente del cliente destino, verificando qué respuesta dio cada método.
+    b. La función recibe tres parámetros:
+    i. El ID de la caja de ahorro que tiene el dinero a transferir.
+    ii. El Alias, CBU o ID de la caja de ahorro de destino.
+    iii. El monto por transferir.
+    c. Se debe verificar que el cliente que va a transferir el dinero cuente con el mismo en la caja
+    de ahorro correspondiente.
+    d. La función devuelve true si se realiza la transferencia y false en caso contrario.*/
+
+    function transferenciaDinero(idCajaOrigen, cbuDestino, monto) {
+        let cajaOrigen = undefined;
+        let cajaDestino = undefined;
+        let encontrado = false;
+
+        for (let i = 0; i < clients.length; i++) {
+            for (let j = 0; j < clients[i].savingsBanks.length; j++) {
+                if (clients[i].savingsBanks[j].id == idCajaOrigen && encontrado == false) {
+                    cajaOrigen = clients[i].savingsBanks[j];
+                    encontrado = true;
+                }
+            }
+        }
+        if (cajaOrigen == undefined) {
+            return false;
+        }
+        let encontrado2 = false;
+        for (let i = 0; i < clients.length; i++) {
+            for (let j = 0; j < clients[i].savingsBanks.length; j++) {
+                let caja = clients[i].savingsBanks[j];
+                if (caja.cbu == cbuDestino && encontrado2 == false) {
+                    cajaDestino = caja;
+                    encontrado2 = true;
+                }
+            }
+        }
+        if (cajaDestino == undefined) {
+            return false;
+        }
+        let extrajo = cajaOrigen.extraccionCA(monto);
+        if (extrajo != true) {
+            return false;
+        }
+        let ingreso = cajaDestino.ingresoCA(monto);
+        if (ingreso == -1) {
+            return false;
+        }
+
+        return true;
+    }
+
+
 }
 
+let idLogged = -1;
+
+//chequea si el usuaario ya existe o se tiene que registrar
+
+function existsClient(DNI, password) {
+    let i = 0
+    while (i < clients.length) {
+        let client = clients[i];
+        if (client.dni == DNI) {
+            if (client.password == password) {
+                return client.id;
+            } else {
+                return 0;
+            }
+        } i++
+    }
+    return -1
+}
+
+//lo loggea
+
+function login() {
+    let DNI = ui.getDNI();
+    let password = ui.getPassword();
+    console.log(DNI, password)
+    let resultado = existsClient(DNI, password);
+    console.log(resultado);
+    if (resultado > 0) {
+        idLogged = resultado;
+        ui.changeScreen();
+    } else if (resultado == 0) {
+        ui.showModal("Password incorrecta", "escriba nuevamente");
+    } else {
+        ui.showModal("Usuario no existente")
+    }
+}
+
+//recibe los datos
+
+function newClient(dni, password, nombre, apellido) {
+    let resultado = existsClient(DNI, password);
+    if (resultado == -1) {
+        clients.push(new Client(dni, password, nombre, apellido));
+        return idClient - 1;
+    } else {
+        return -1;
+    }
+}
+
+//lo registra
+
+function registrar() {
+    let nombre = ui.getClient();
+    let apellido = ui.getLastName();
+    let dni = ui.getDNIRegistro
+    let password = ui.getPasswordRegistro();
+    let resultado = newClient(dni, password, nombre, apellido);
+    if (resultado > 0) {
+        login();
+    } else {
+        ui.showModal("Usuario existente, inicie sesión o ingrese otro correo electrónico")
+    }
+}

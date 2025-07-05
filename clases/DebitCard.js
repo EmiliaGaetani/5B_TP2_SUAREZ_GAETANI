@@ -25,6 +25,30 @@ class DebitCard {
         this.nombreTarjeta = nombreTarjeta;
         this.consumptions = [];
     }
+
+    /*21) Agregar a las clases SavingsBank, CreditCard y DebitCard un método para registrar un movimiento
+    realizado.
+    a. El método recibe tres o cuatro parámetros:
+    i. El nombre del tercero involucrado en el movimiento.
+    ii. El monto del movimiento realizado (puede ser positivo o negativo, depende de si fue
+    un gasto o una acreditación de dinero).
+    iii. La fecha del movimiento.
+    iv. En caso de ser un movimiento con tarjeta de crédito, la cantidad de cuotas.
+    b. Por cada movimiento que se realice en una tarjeta de crédito se debe sumar el monto al
+    parámetro "saldo" de la tarjeta de crédito correspondiente.
+    c. En caso de tarjetas (tanto débito como crédito) se debe verificar que la tarjeta no esté
+    vencida antes de intentar registrar un movimiento.
+    d. Este método devuelve true si se almacena el movimiento y false en caso contrario.*/
+
+    registrarMovimiento(nombreTercero, monto, fecha) {
+        const hoy = new Date();
+        if (this.fechaVencimiento && new Date(this.fechaVencimiento) < hoy) {
+            return false;  
+        }
+        this.consumptions.push(new Movement(fecha, nombreTercero, monto));
+        return true;
+    }
+    
 }
 
 /*Genere, a partir de instanciar la clase, unos cuántos objetos “debitCards” con unas cuántas tarjetas

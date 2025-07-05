@@ -35,35 +35,76 @@ class CreditCard{
     constructor(provider, emitionDate, securityCode, displayName, closeDate, balanceExpirationDate) {
         this.id = creditsCardsId;
         creditsCardsId++;
-
         this.cardNumber = cardsNumbers;
         cardsNumbers++;
-
-        //VISA, American Express, MasterCard, CABAL...
         this.provider = provider;
-
-        //Para poder tener distintas fechas de vencimiento de tarjeta.
         this.expirationDate = emitionDate;
         this.expirationDate.setFullYear(this.expirationDate.getFullYear() + 5);
-
-        //Solo para saber que existe
         this.securityCode = securityCode;
-
-        //Ej: NICOLAS AGUST FACON o NICOLAS A FACON
         this.displayName = displayName;
-
         this.consumptions = [];
-
         this.balance = 0;
-        //Si el cliente hace un pago que NO sea el total, modificamos el interes
-        //Por ej, 1.1
         this.interest = 1;
-
-        //Fecha hasta la cual se computan los gastos
         this.closeDate = closeDate;
-        //Fecha en la que tengo que pagar la tarjeta.
         this.balanceExpirationDate = balanceExpirationDate;
     }
+
+    /*21) Agregar a las clases SavingsBank, CreditCard y DebitCard un método para registrar un movimiento
+    realizado.
+    a. El método recibe tres o cuatro parámetros:
+    i. El nombre del tercero involucrado en el movimiento.
+    ii. El monto del movimiento realizado (puede ser positivo o negativo, depende de si fue
+    un gasto o una acreditación de dinero).
+    iii. La fecha del movimiento.
+    iv. En caso de ser un movimiento con tarjeta de crédito, la cantidad de cuotas.
+    b. Por cada movimiento que se realice en una tarjeta de crédito se debe sumar el monto al
+    parámetro "saldo" de la tarjeta de crédito correspondiente.
+    c. En caso de tarjetas (tanto débito como crédito) se debe verificar que la tarjeta no esté
+    vencida antes de intentar registrar un movimiento.
+    d. Este método devuelve true si se almacena el movimiento y false en caso contrario.*/
+
+    registrarMovimiento(nombreTercero, monto, fecha, cuotas = 0) {
+        const hoy = new Date();
+        if (this.expirationDate && new Date(this.expirationDate) < hoy) {
+            return false;  
+        }
+        this.consumptions.push(new Movement(fecha, nombreTercero, monto, cuotas));
+        this.balance += monto;  
+        return true;
+    }
+    
+    /*22) Agregar a la clase CreditCard un método para registrar un pago que efectúa el cliente del saldo de la
+    tarjeta de crédito.
+    a. El método recibe el monto que el cliente desea abonar.
+    b. El método devuelve:
+    i. 1 si se realiza el pago solicitado por el cliente y no queda saldo en la tarjeta para
+    pagar (o sea, si se realiza un pago por el monto total o más que el monto total).
+    ii. 0 si se realiza el pago solicitado, pero aún queda saldo para pagar (por ejemplo,
+    cuando el cliente quiere realizar un pago mínimo).
+    iii. -1 si no se puede realizar el pago solicitado por el cliente.
+    Esto sucede solamente si el cliente intenta abonar un monto menor al pago mínimo
+    de la tarjeta. Para este TP, vamos a considerar que un pago mínimo es el 10% del
+    saldo que se debe.*/
+
+    registrarPago(monto){
+        if (monto <= 0) {
+            return -1;  
+        }
+        let saldoPositivo = this.balance;
+        if (saldoPositivo < 0) {
+            saldoPositivo = saldoPositivo * -1;
+        }
+        if(monto >= saldoPositivo){
+            this.balance -= monto
+            return 1
+        } else if (monto >= saldoPositivo*0.10){
+            this.balance -= monto
+            return 0
+        } else {
+            retun -1
+        }
+    }
+
 }
 
 clients[0].creditCards.push(new CreditCard("VISA", new Date("08/16/2022"), 123, "JULIETA GAETANI", 27, 8))
