@@ -93,7 +93,7 @@ correspondiente.
 NOTA: No se conoce el ID del cliente. Hay que buscar cliente por cliente a ver a quién está asociada
 esa tarjeta de crédito.*/
 
-function encontrarTarjetaD(idCredit) {
+function encontrarTarjetaC(idCredit) {
     for (let i = 0; i < clients.length; i++) {
         let idCliente = clients[i].id
         let posCliente = buscarClientID(idCliente)
@@ -160,9 +160,9 @@ function encontrarMovimientoTC(creditsCardsId) {
         }
     }
     return [];
+}
 
-
-    /*23) Implementar una función para realizar una transferencia de dinero de un cliente a otro.
+/*23) Implementar una función para realizar una transferencia de dinero de un cliente a otro.
     a. La forma de llevar a cabo esto es utilizando el método de extracción en la caja de ahorros
     correspondiente en el cliente origen y el método de ingreso en la caja de ahorros
     correspondiente del cliente destino, verificando qué respuesta dio cada método.
@@ -174,48 +174,45 @@ function encontrarMovimientoTC(creditsCardsId) {
     de ahorro correspondiente.
     d. La función devuelve true si se realiza la transferencia y false en caso contrario.*/
 
-    function transferenciaDinero(idCajaOrigen, cbuDestino, monto) {
-        let cajaOrigen = undefined;
-        let cajaDestino = undefined;
-        let encontrado = false;
+function transferenciaDinero(idCajaOrigen, cbuDestino, monto) {
+    let cajaOrigen = undefined;
+    let cajaDestino = undefined;
+    let encontrado = false;
 
-        for (let i = 0; i < clients.length; i++) {
-            for (let j = 0; j < clients[i].savingsBanks.length; j++) {
-                if (clients[i].savingsBanks[j].id == idCajaOrigen && encontrado == false) {
-                    cajaOrigen = clients[i].savingsBanks[j];
-                    encontrado = true;
-                }
+    for (let i = 0; i < clients.length; i++) {
+        for (let j = 0; j < clients[i].savingsBanks.length; j++) {
+            if (clients[i].savingsBanks[j].id == idCajaOrigen && encontrado == false) {
+                cajaOrigen = clients[i].savingsBanks[j];
+                encontrado = true;
             }
         }
-        if (cajaOrigen == undefined) {
-            return false;
-        }
-        let encontrado2 = false;
-        for (let i = 0; i < clients.length; i++) {
-            for (let j = 0; j < clients[i].savingsBanks.length; j++) {
-                let caja = clients[i].savingsBanks[j];
-                if (caja.cbu == cbuDestino && encontrado2 == false) {
-                    cajaDestino = caja;
-                    encontrado2 = true;
-                }
+    }
+    if (cajaOrigen == undefined) {
+        return false;
+    }
+    let encontrado2 = false;
+    for (let i = 0; i < clients.length; i++) {
+        for (let j = 0; j < clients[i].savingsBanks.length; j++) {
+            let caja = clients[i].savingsBanks[j];
+            if (caja.cbu == cbuDestino && encontrado2 == false) {
+                cajaDestino = caja;
+                encontrado2 = true;
             }
         }
-        if (cajaDestino == undefined) {
-            return false;
-        }
-        let extrajo = cajaOrigen.extraccionCA(monto);
-        if (extrajo != true) {
-            return false;
-        }
-        let ingreso = cajaDestino.ingresoCA(monto);
-        if (ingreso == -1) {
-            return false;
-        }
-
-        return true;
+    }
+    if (cajaDestino == undefined) {
+        return false;
+    }
+    let extrajo = cajaOrigen.extraccionCA(monto);
+    if (extrajo != true) {
+        return false;
+    }
+    let ingreso = cajaDestino.ingresoCA(monto);
+    if (ingreso == -1) {
+        return false;
     }
 
-
+    return true;
 }
 
 let idLogged = -1;
@@ -258,7 +255,7 @@ function login() {
 //recibe los datos
 
 function newClient(dni, password, nombre, apellido) {
-    let resultado = existsClient(DNI, password);
+    let resultado = existsClient(dni, password);
     if (resultado == -1) {
         clients.push(new Client(dni, password, nombre, apellido));
         return idClient - 1;
@@ -272,11 +269,29 @@ function newClient(dni, password, nombre, apellido) {
 function registrar() {
     let nombre = ui.getClient();
     let apellido = ui.getLastName();
-    let dni = ui.getDNIRegistro
+    let dni = ui.getDNIRegistro()
     let password = ui.getPasswordRegistro();
     let resultado = newClient(dni, password, nombre, apellido);
-    if (resultado > 0) {
-        login();
+    let usuario;
+    if (resultado >= 0) {
+        if (nombre.length <= 0 || apellido.length <= 0 || password.length <= 0) { //seguir probando
+            ui.showModal("Ningún campo debe quedar vacío")
+            return;
+        }
+        if (dni.length < 7) {
+            ui.showModal("Su DNI debe tener al menos 7 dígitos")
+        }
+        
+        usuario = existsClient(dni, password)
+        if (usuario > 0) {
+        idLogged = usuario;
+        ui.changeScreen();
+        } else if (usuario == 0) {
+            ui.showModal("Password incorrecta", "escriba nuevamente");
+        } else {
+            ui.showModal("Usuario no existente")
+        }
+
     } else {
         ui.showModal("Usuario existente, inicie sesión o ingrese otro correo electrónico")
     }

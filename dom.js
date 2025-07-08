@@ -22,7 +22,7 @@ class UserInterface {
        * @returns String que contiene la contraseña ingresada por el usuario.
        */
     getPassword() {
-        return document.getElementById("password").value;
+        return document.getElementById("loginPassword").value;
     }
 
     /**
@@ -30,10 +30,17 @@ class UserInterface {
      * @returns String que contiene el DNI ingresado por el usuario.
      */
     getDNI() {
-        return document.getElementById("DNI").value;
+        return parseInt(document.getElementById("loginDni").value);
     }
 
-    //esta parte es para el registro
+    /*25) Idem ejercicio anterior, pero para la funcionalidad registro.
+    a. Al registrar un nuevo cliente se deben solicitar todos los datos para generarle una cuenta
+    bancaria (nombre, apellido, DNI, correo electrónico y contraseña).
+    b. Previo a realizar un registro, se debe validar que todos los datos ingresados por el nuevo
+    cliente tengan coherencia (no estén los campos vacíos, el DNI tenga al menos 7 números,
+    etc.).
+    c. Verificar que el DNI ingresado no exista dentro de la base de datos de clientes. En tal caso,
+    informar al usuario del error./*
 
     /**
      * Obtiene el texto ingresado en el input "Correo electrónico", sección "Registro".
@@ -65,7 +72,7 @@ class UserInterface {
        * @returns String que contiene el DNI ingresado por el usuario.
        */
     getDNIRegistro() {
-        return document.getElementById("registerDni").value;
+        return parseInt(document.getElementById("registerDni").value);
     }
 
     /**
@@ -84,48 +91,18 @@ class UserInterface {
         document.getElementById("loginPassword").value = "";
     }
 
-   /**
-     * Si se está mostrando la pantalla de login la oculta y muestra la de notas. Y viceversa.
-     */
-   changeScreen() {
-    const CA = document.getElementById("accounts");
-    const DC = document.getElementById("debitCards");
-    const T = document.getElementById("transfers");
-    const D = document.getElementById("dollar");
-    const CC = document.getElementById("creditCards");
-    const P = document.getElementById("payments");
-    const I = document.getElementById("investments");
-    const BMH = document.getElementsByClassName("navbar-toggler")
-    const MH = document.getElementsByClassName("offcanvas offcanvas-end text-bg-dark")
-    const registerForm = document.getElementById("registerFormContainer");
-    const loginForm = document.getElementById("loginFormContainer");
-    if (CA.style.display !== "none" && DC.style.display !== "none" && T.style.display !== "none" && D.style.display !== "none" && CC.style.display !== "none" && P.style.display !== "none" && I.style.display !== "none" && BMH.style.display !== "none" && MH.style.display !== "none") {
-        CA.style.display = "none";
-        DC.style.display = "none";
-        T.style.display = "none";
-        D.style.display = "none";
-        CC.style.display = "none";
-        P.style.display = "none";
-        I.style.display = "none";
-        BMH.style.display = "none";
-        MH.style.display = "none";
-        loginForm.style.display = "";
-        registerForm.style.display = "";
+    /**
+      * Si se está mostrando la pantalla de login la oculta y muestra la de notas. Y viceversa.
+      */
+    changeScreen() {
+        if (document.getElementById("iniciar-sesion").style.display == "none") {
+            document.getElementById("iniciar-sesion").style.display = "";
+            document.getElementById("aplicacion").style.display = "none";
+        } else {
+            document.getElementById("iniciar-sesion").style.display = "none";
+            document.getElementById("aplicacion").style.display = "";
+        }
     }
-    else {
-        CA.style.display = "";
-        DC.style.display = "";
-        T.style.display = "";
-        D.style.display = "";
-        CC.style.display = "";
-        P.style.display = "";
-        I.style.display = "";
-        BMH.style.display = "";
-        MH.style.display = "";
-        loginForm.style.display = "none";
-        registerForm.style.display = "none";
-    }
-}
 
 
     /**
@@ -145,3 +122,5 @@ class UserInterface {
         modal.show();
     }
 }
+
+const ui = new UserInterface()
