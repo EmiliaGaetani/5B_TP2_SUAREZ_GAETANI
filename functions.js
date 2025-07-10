@@ -296,3 +296,23 @@ function registrar() {
         ui.showModal("Usuario existente, inicie sesión o ingrese otro correo electrónico")
     }
 }
+
+//cierra la sesión
+
+function cerrarSesion() {
+    idLogged = 0;
+    if (confirm("¿Estás seguro que quieres salir?")) {
+        ui.changeScreen();
+        ui.clearLoginInputs();
+        ui.clearRegisterInputs();
+        ui.showModal("Se cerró la sesión")
+    } else {
+        ui.showModal("La sesión sigue abierta")
+    }
+}
+
+//reemplaza todos los datos de la tarjeta por la del cliente loggeado
+
+function datosCard(idClient){
+                    
+}

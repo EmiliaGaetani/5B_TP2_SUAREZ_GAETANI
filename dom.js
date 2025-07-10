@@ -104,6 +104,46 @@ class UserInterface {
         }
     }
 
+    /*26) Implementar la funcionalidad logout en el botón “Cerrar sesión” que existe dentro del menú
+    “hamburguesa”. Una vez que se presione este botón, se debe volver a la pantalla de login para que
+    el usuario pueda loguearse con otro usuario o registrar un nuevo cliente, sin la necesidad de
+    actualizar la página.*/
+
+    clearRegisterInputs(){
+        document.getElementById("email").value = "";
+        document.getElementById("registerName").value = "";
+        document.getElementById("registerLastName").value = "";
+        document.getElementById("registerDni").value = "";
+        document.getElementById("registerPassword").value = "";
+    }
+
+    /*27) En todo el home banking existen múltiples elementos donde el usuario va a visualizar lo que tiene en
+    el banco. A continuación, se detallan los lugares dónde se debe completar, mediante DOM, los datos
+    que el usuario logueado tiene ni bien el mismo se loguea.
+    NOTA: Los textos visibles de los selects deben indicar datos que le sirvan al usuario para tomar una
+    decisión. Pero, a nivel código y en los selects, lo que importa es el “value” asignado a cada etiqueta
+    “option”. Este value corresponde que sea el ID de lo que se está mostrando en el listado.
+    a. Sección “Mis Cuentas”: Basándose en el ejemplo suministrado por los docentes, generar
+    una card con cada caja de ahorro que posea el cliente, y completar los datos de la card
+    dinámicamente con los datos del cliente.
+    b. Sección “Tarjetas de Débito”: En el select titulado “Seleccionar caja de ahorro” se deben
+    poder ver todas las cajas de ahorro que posea el cliente.
+    c. Sección “Transferencias”: En el select titulado “Cuenta de origen” el cliente debe poder ver
+    todas sus cajas de ahorro. Y, en el select titulado “O seleccione un destinatario” se deben
+    listar las cajas de ahorro de los otros clientes del banco (esto si es que se busca evitar usar el
+    alias o CBU para las transferencias).
+    d. Sección “Compra / Venta de Dólares”: En el select titulado “Cuenta en pesos” el usuario
+    debe poder ver todas sus cajas de ahorro en pesos. En el select titulado “Cuenta en dólares”
+    lo mismo, pero para las cajas de ahorro en dólares.
+    e. Sección “Tarjetas de Crédito”: En el select titulado “Seleccionar tarjeta” el usuario debe
+    poder ver todas sus tarjetas de crédito.
+    f. Seccción “Cargar gasto”: En el select titulado “Seleccionar medio de pago” el usuario debe
+    poder ver todas sus tarjetas, tanto de crédito como de débito.
+    g. Sección “Inversiones”: En el select titulado “Seleccionar caja de ahorro de origen” el cliente
+    debe ver todas sus cajas de ahorro disponibles.*/
+
+    
+
 
     /**
      * Muestra el modal y le inserta los textos que se reciben como parámetros.
