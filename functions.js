@@ -316,3 +316,54 @@ function cerrarSesion() {
 function datosCard(idClient){
                     
 }
+
+//27 d
+function compraVenta() {
+
+    for (let i = 0; i < clients[p].cajaAhorro.length; i++) {
+        let plata = clients[p].cajaAhorro[i].plata
+        let id = clients[p].cajaAhorro[i].id
+        if (plata == "ars") {
+            ui.cuentaPesos(id, plata)
+        } else if (plata == "usd") {
+            ui.cuentaDolares(id, plata)
+        }
+        
+    }
+}
+
+//27 e
+function selectCredito() {
+    for (let i = 0; i < clients[p].tarjetaCredito.length; i++) {
+        let proveedorTarjeta = clients[p].tarjetaCredito[i].proveedorTarjeta
+        let id = clients[p].tarjetaCredito[i].id
+        ui.selectCredito(id, proveedorTarjeta)
+    }
+}
+
+//27 f
+function selectTodasTarjetas() {
+    for (let i = 0; i < clients[p].tarjetaCredito.length; i++) {
+        let numero = clients[p].tarjetaCredito[i].numero
+        let id = clients[p].tarjetaCredito[i].id
+        ui.selectCargarGasto(id, numero)
+    }
+
+    for (let i = 0; i < clients[p].cajaAhorro.length; i++) {
+        for (let j = 0; j < clients[p].cajaAhorro[i].tarjetaDebito.length; j++) {
+            let numTarjeta = clients[p].cajaAhorro[i].tarjetaDebito[j].numero
+            let idTarjeta = clients[p].cajaAhorro[i].tarjetaDebito[j].id
+            ui.selectCargarGasto2(idTarjeta, numTarjeta)
+        }
+    }
+}
+
+
+//27 g
+function selectInversiones() {
+    for (let i = 0; i < clients[p].cajaAhorro.length; i++) {
+        let id = clients[p].cajaAhorro[i].id
+        let plata = clients[p].cajaAhorro[i].plata
+        ui.selectInversiones(id, plata)
+    }
+}

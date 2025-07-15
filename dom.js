@@ -142,7 +142,119 @@ class UserInterface {
     g. Sección “Inversiones”: En el select titulado “Seleccionar caja de ahorro de origen” el cliente
     debe ver todas sus cajas de ahorro disponibles.*/
 
-    
+        crearTarjetaPesos(plata, saldo, limiteDescubierto, montoDescubierto, alias, CBU) {
+        document.getElementsByClassName("row")[1].innerHTML += `
+
+        <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Caja de Ahorro en Pesos</h5>
+                            <p class="card-text mb-1"><strong>Moneda:</strong> ${plata}</p>
+                            <p class="card-text mb-1"><strong>Saldo:</strong> ${saldo}</p>
+                            <p class="card-text mb-1"><strong>Descubierto disponible:</strong> ${limiteDescubierto}</p>
+                            <p class="card-text mb-1"><strong>Descubierto usado:</strong> ${montoDescubierto} </p>
+                            <p class="card-text mb-1"><strong>Alias:</strong> ${alias}</p>
+                            <p class="card-text mb-3"><strong>CBU:</strong> ${CBU}</p>
+                            <div class="d-grid">
+                                <button class="btn btn-outline-primary btn-sm">Ver movimientos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        `;
+    }
+
+    crearTarjetaDolares(plata, saldo, alias, CBU) {
+        document.getElementsByClassName("row")[1].innerHTML += `
+
+        <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Caja de Ahorro en Dolares</h5>
+                            <p class="card-text mb-1"><strong>Moneda:</strong> ${plata}</p>
+                            <p class="card-text mb-1"><strong>Saldo:</strong> ${saldo}</p>
+                            <p class="card-text mb-1"><strong>Alias:</strong> ${alias}</p>
+                            <p class="card-text mb-3"><strong>CBU:</strong> ${CBU}</p>
+                            <div class="d-grid">
+                                <button class="btn btn-outline-primary btn-sm">Ver movimientos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        `;
+    }
+
+    //b
+
+    //agregar al select
+    tarjetaSelect(id, numero) {
+        document.getElementById("debitCardAccountSelect").innerHTML += `
+                <option value="${id}" id="optionTarjeta${id}">ID ${id} - ${numero}</option>
+            `;
+    }
+
+    //obtener id del select de la tarjeta
+    getTarjetaSelect() {
+        return parseInt(document.getElementById("debitCardAccountSelect").value);
+    }
+
+    //c
+
+    cajaSelect(id, plata) {
+        document.getElementById("transferOrigin").innerHTML += `
+                <option value="${id}" id="optionTarjeta${id}">ID ${id} - ${plata}</option>
+            `;
+    }
+
+    cajaSelect2(id, plata) {
+        document.getElementById("transferDestinysSelect").innerHTML += `
+                <option value="${id}" id="optionTarjeta${id}">ID ${id} - ${plata}</option>
+            `;
+    }
+
+    //d
+    cuentaPesos(id, plata) {
+        document.getElementById("pesosAccount").innerHTML += `
+        <option value="${id}" id="optionCajaPesos${id}">ID ${id} - ${plata}</option>
+    `;
+    }
+
+    cuentaDolares(id, plata) {
+        document.getElementById("dollarsAccount").innerHTML += `
+        <option value="${id}" id="optionCajaPesos${id}">ID ${id} - ${plata}</option>
+    `;
+    }
+
+    //e
+investmentAccountSelect
+    selectCredito(id, proveedorTarjeta) {
+        document.getElementById("creditCardSelect").innerHTML += `
+        <option value="${id}" id="optionTarjetaCredito${id}">ID ${id} - ${proveedorTarjeta}</option>
+    `;
+    }
+
+    //f
+    selectCargarGasto(id, numero) {
+        document.getElementById("paymentMethodSelect").innerHTML += `
+        <option value="${id}" id="optionTarjetaCredito${id}">ID ${id} - ${numero}</option>
+    `;
+    }
+
+    selectCargarGasto2(id, numero) {
+        document.getElementById("paymentMethodSelect").innerHTML += `
+        <option value="${id}" id="optionTarjetaCredito${id}">ID ${id} - ${numero}</option>
+    `;
+    }
+
+    //g
+    selectInversiones(id, plata) {
+        document.getElementById("investmentAccountSelect").innerHTML += `
+        <option value="${id}" id="optionsavingInversiones${id}">ID ${id} - ${plata}</option>
+
+    `;
+    }
 
 
     /**
