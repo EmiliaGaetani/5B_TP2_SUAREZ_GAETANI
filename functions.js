@@ -1,3 +1,5 @@
+let p = 0
+
 /*9.Implementar una función para encontrar un cliente en el vector “clients” a partir de su ID. La función
 recibe como parámetro el ID y devuelve la posición del vector donde se encuentra el cliente.*/
 
@@ -223,9 +225,12 @@ function existsClient(DNI, password) {
     let i = 0
     while (i < clients.length) {
         let client = clients[i];
+        
         if (client.dni == DNI) {
             if (client.password == password) {
+                
                 return client.id;
+                
             } else {
                 return 0;
             }
@@ -244,7 +249,10 @@ function login() {
     console.log(resultado);
     if (resultado > 0) {
         idLogged = resultado;
+        
         ui.changeScreen();
+        cuentas()
+        
     } else if (resultado == 0) {
         ui.showModal("Password incorrecta", "escriba nuevamente");
     } else {
@@ -311,59 +319,104 @@ function cerrarSesion() {
     }
 }
 
-//reemplaza todos los datos de la tarjeta por la del cliente loggeado
 
-function datosCard(idClient){
-                    
+function cuentas() {
+    let cajasAhorroCliente = buscarCajasA(idLogged)
+        for (let i = 0; i < cajasAhorroCliente.length; i++) {
+            if (cajasAhorroCliente[i].currency == "ARS") {
+                ui.crearTarjetaPesos(cajasAhorroCliente[i].currency, cajasAhorroCliente[i].saldo, cajasAhorroCliente[i].limit, cajasAhorroCliente[i].overdraft, cajasAhorroCliente[i].alias, cajasAhorroCliente[i].cbu, cajasAhorroCliente[i].id)
+            } else {
+                ui.crearTarjetaDolares(cajasAhorroCliente[i].currency, cajasAhorroCliente[i].saldo, cajasAhorroCliente[i].alias, cajasAhorroCliente[i].cbu, cajasAhorroCliente[i].id)
+            }
+    }
+}
+
+function agregarSelect() {
+    for (let p = 0; p < clients.length; p++){
+    for (let i = 0; i < clients[p].savingsBanks.length; i++) {
+        for (let j = 0; j < clients[p].savingsBanks[i].tarjetaDebito.length; j++) {
+            let numTarjeta = clients[p].savingsBanks[i].tarjetaDebito[j].numero
+            let idTarjeta = clients[p].savingsBanks[i].tarjetaDebito[j].id
+            ui.tarjetaSelect(idTarjeta, numTarjeta)
+        }
+    }
+ }
+}
+
+function agregarSelect2() {
+     for (let p = 0; p < clients.length; p++){
+    for (let i = 0; i < clients[p].savingsBanks.length; i++) {
+        let currency = clients[p].savingsBanks[i].currency
+        let id = clients[p].savingsBanks[i].id
+        ui.cajaSelect(id, currency)
+    }
+
+    for (let j = 0; j < clients.length; j++) {
+        if (j != p) {
+            for (let k = 0; k < clients[j].savingsBanks.length; k++) {
+                let currency = clients[j].savingsBanks[k].currency
+                let id = clients[j].savingsBanks[k].id
+                ui.cajaSelect2(id, currency)
+            }
+        }
+    }
+}
 }
 
 //27 d
 function compraVenta() {
-
-    for (let i = 0; i < clients[p].cajaAhorro.length; i++) {
-        let plata = clients[p].cajaAhorro[i].plata
-        let id = clients[p].cajaAhorro[i].id
-        if (plata == "ars") {
-            ui.cuentaPesos(id, plata)
-        } else if (plata == "usd") {
-            ui.cuentaDolares(id, plata)
+     for (let p = 0; p < clients.length; p++){
+    for (let i = 0; i < clients[p].savingsBanks.length; i++) {
+        let currency = clients[p].savingsBanks[i].currency
+        let id = clients[p].savingsBanks[i].id
+        if (currency == "ARS") {
+            ui.cuentaPesos(id, currency)
+        } else if (currency == "USD") {
+            ui.cuentaDolares(id, currency)
         }
-        
+    }
     }
 }
 
 //27 e
 function selectCredito() {
+    for (let p = 0; p < clients.length; p++){
     for (let i = 0; i < clients[p].tarjetaCredito.length; i++) {
         let proveedorTarjeta = clients[p].tarjetaCredito[i].proveedorTarjeta
         let id = clients[p].tarjetaCredito[i].id
         ui.selectCredito(id, proveedorTarjeta)
     }
 }
+}
 
 //27 f
 function selectTodasTarjetas() {
+    for (let p = 0; p < clients.length; p++){
     for (let i = 0; i < clients[p].tarjetaCredito.length; i++) {
         let numero = clients[p].tarjetaCredito[i].numero
         let id = clients[p].tarjetaCredito[i].id
         ui.selectCargarGasto(id, numero)
     }
-
-    for (let i = 0; i < clients[p].cajaAhorro.length; i++) {
-        for (let j = 0; j < clients[p].cajaAhorro[i].tarjetaDebito.length; j++) {
-            let numTarjeta = clients[p].cajaAhorro[i].tarjetaDebito[j].numero
-            let idTarjeta = clients[p].cajaAhorro[i].tarjetaDebito[j].id
+    }
+    for (let p = 0; p < clients.length; p++){
+    for (let i = 0; i < clients[p].savingsBanks.length; i++) {
+        for (let j = 0; j < clients[p].savingsBanks[i].tarjetaDebito.length; j++) {
+            let numTarjeta = clients[p].savingsBanks[i].tarjetaDebito[j].numero
+            let idTarjeta = clients[p].savingsBanks[i].tarjetaDebito[j].id
             ui.selectCargarGasto2(idTarjeta, numTarjeta)
         }
+    }
     }
 }
 
 
 //27 g
 function selectInversiones() {
-    for (let i = 0; i < clients[p].cajaAhorro.length; i++) {
-        let id = clients[p].cajaAhorro[i].id
-        let plata = clients[p].cajaAhorro[i].plata
-        ui.selectInversiones(id, plata)
+    for (let p = 0; p < clients.length; p++){
+    for (let i = 0; i < clients[p].savingsBanks.length; i++) {
+        let id = clients[p].savingsBanks[i].id
+        let currency = clients[p].savingsBanks[i].currency
+        ui.selectInversiones(id, currency)
+    }
     }
 }

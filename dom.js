@@ -11,9 +11,6 @@ correcto, se deben ocultar las opciones de login / registro y mostrar el menú �
 y las opciones del home banking.*/
 
 class UserInterface {
-    constructor() {
-
-    }
 
     //esta parte es para el login
 
@@ -142,21 +139,21 @@ class UserInterface {
     g. Sección “Inversiones”: En el select titulado “Seleccionar caja de ahorro de origen” el cliente
     debe ver todas sus cajas de ahorro disponibles.*/
 
-        crearTarjetaPesos(plata, saldo, limiteDescubierto, montoDescubierto, alias, CBU) {
+ crearTarjetaPesos(currency, saldo, limit, overdraft, alias, CBU, id) {
         document.getElementsByClassName("row")[1].innerHTML += `
 
         <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card shadow-sm h-100">
                         <div class="card-body">
                             <h5 class="card-title">Caja de Ahorro en Pesos</h5>
-                            <p class="card-text mb-1"><strong>Moneda:</strong> ${plata}</p>
-                            <p class="card-text mb-1"><strong>Saldo:</strong> ${saldo}</p>
-                            <p class="card-text mb-1"><strong>Descubierto disponible:</strong> ${limiteDescubierto}</p>
-                            <p class="card-text mb-1"><strong>Descubierto usado:</strong> ${montoDescubierto} </p>
-                            <p class="card-text mb-1"><strong>Alias:</strong> ${alias}</p>
-                            <p class="card-text mb-3"><strong>CBU:</strong> ${CBU}</p>
+                            <p class="card-text mb-1"><strong>Moneda:</strong>${currency}</p>
+                            <p class="card-text mb-1"><strong>Saldo:</strong>${saldo}</p>
+                            <p class="card-text mb-1"><strong>Descubierto disponible:</strong>${limit}</p>
+                            <p class="card-text mb-1"><strong>Descubierto usado:</strong>${overdraft} </p>
+                            <p class="card-text mb-1"><strong>Alias:</strong>${alias}</p>
+                            <p class="card-text mb-3"><strong>CBU:</strong>${CBU}</p>
                             <div class="d-grid">
-                                <button class="btn btn-outline-primary btn-sm">Ver movimientos</button>
+                                <button onclick="verMovimientos(${id})" class="btn btn-outline-primary btn-sm">Ver movimientos</button>
                             </div>
                         </div>
                     </div>
@@ -165,7 +162,7 @@ class UserInterface {
         `;
     }
 
-    crearTarjetaDolares(plata, saldo, alias, CBU) {
+    crearTarjetaDolares(plata, saldo, alias, CBU, id) {
         document.getElementsByClassName("row")[1].innerHTML += `
 
         <div class="col-md-6 col-lg-4 mb-4">
@@ -177,7 +174,7 @@ class UserInterface {
                             <p class="card-text mb-1"><strong>Alias:</strong> ${alias}</p>
                             <p class="card-text mb-3"><strong>CBU:</strong> ${CBU}</p>
                             <div class="d-grid">
-                                <button class="btn btn-outline-primary btn-sm">Ver movimientos</button>
+                                <button onclick="verMovimientos(${id})" class="btn btn-outline-primary btn-sm">Ver movimientos</button>
                             </div>
                         </div>
                     </div>
@@ -186,7 +183,8 @@ class UserInterface {
         `;
     }
 
-    //b
+    /*b. Sección “Tarjetas de Débito”: En el select titulado “Seleccionar caja de ahorro” se deben
+    poder ver todas las cajas de ahorro que posea el cliente. */
 
     //agregar al select
     tarjetaSelect(id, numero) {
@@ -200,7 +198,10 @@ class UserInterface {
         return parseInt(document.getElementById("debitCardAccountSelect").value);
     }
 
-    //c
+    /*c.Sección “Transferencias”: En el select titulado “Cuenta de origen” el cliente debe poder ver
+    todas sus cajas de ahorro. Y, en el select titulado “O seleccione un destinatario” se deben
+    listar las cajas de ahorro de los otros clientes del banco (esto si es que se busca evitar usar el
+    alias o CBU para las transferencias). */
 
     cajaSelect(id, plata) {
         document.getElementById("transferOrigin").innerHTML += `
@@ -214,7 +215,9 @@ class UserInterface {
             `;
     }
 
-    //d
+    /*d. Sección “Compra / Venta de Dólares”: En el select titulado “Cuenta en pesos” el usuario
+    debe poder ver todas sus cajas de ahorro en pesos. En el select titulado “Cuenta en dólares”
+    lo mismo, pero para las cajas de ahorro en dólares. */
     cuentaPesos(id, plata) {
         document.getElementById("pesosAccount").innerHTML += `
         <option value="${id}" id="optionCajaPesos${id}">ID ${id} - ${plata}</option>
@@ -227,15 +230,17 @@ class UserInterface {
     `;
     }
 
-    //e
-investmentAccountSelect
+    /*e.Sección “Tarjetas de Crédito”: En el select titulado “Seleccionar tarjeta” el usuario debe
+    poder ver todas sus tarjetas de crédito. */
+    investmentAccountSelect
     selectCredito(id, proveedorTarjeta) {
         document.getElementById("creditCardSelect").innerHTML += `
         <option value="${id}" id="optionTarjetaCredito${id}">ID ${id} - ${proveedorTarjeta}</option>
     `;
     }
 
-    //f
+    /*f. Seccción “Cargar gasto”: En el select titulado “Seleccionar medio de pago” el usuario debe
+    poder ver todas sus tarjetas, tanto de crédito como de débito. */
     selectCargarGasto(id, numero) {
         document.getElementById("paymentMethodSelect").innerHTML += `
         <option value="${id}" id="optionTarjetaCredito${id}">ID ${id} - ${numero}</option>
@@ -248,7 +253,8 @@ investmentAccountSelect
     `;
     }
 
-    //g
+    /*g. Sección “Inversiones”: En el select titulado “Seleccionar caja de ahorro de origen” el cliente
+    debe ver todas sus cajas de ahorro disponibles. */
     selectInversiones(id, plata) {
         document.getElementById("investmentAccountSelect").innerHTML += `
         <option value="${id}" id="optionsavingInversiones${id}">ID ${id} - ${plata}</option>
