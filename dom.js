@@ -107,7 +107,6 @@ class UserInterface {
     actualizar la página.*/
 
     clearRegisterInputs(){
-        document.getElementById("email").value = "";
         document.getElementById("registerName").value = "";
         document.getElementById("registerLastName").value = "";
         document.getElementById("registerDni").value = "";
@@ -162,14 +161,14 @@ class UserInterface {
         `;
     }
 
-    crearTarjetaDolares(plata, saldo, alias, CBU, id) {
+    crearTarjetaDolares(currency, saldo, alias, CBU, id) {
         document.getElementsByClassName("row")[1].innerHTML += `
 
         <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card shadow-sm h-100">
                         <div class="card-body">
                             <h5 class="card-title">Caja de Ahorro en Dolares</h5>
-                            <p class="card-text mb-1"><strong>Moneda:</strong> ${plata}</p>
+                            <p class="card-text mb-1"><strong>Moneda:</strong> ${currency}</p>
                             <p class="card-text mb-1"><strong>Saldo:</strong> ${saldo}</p>
                             <p class="card-text mb-1"><strong>Alias:</strong> ${alias}</p>
                             <p class="card-text mb-3"><strong>CBU:</strong> ${CBU}</p>
@@ -181,6 +180,10 @@ class UserInterface {
                 </div>
 
         `;
+    }
+
+    borrarCajas() {
+        document.getElementsByClassName("row")[1].innerHTML = "";
     }
 
     /*b. Sección “Tarjetas de Débito”: En el select titulado “Seleccionar caja de ahorro” se deben
@@ -203,30 +206,30 @@ class UserInterface {
     listar las cajas de ahorro de los otros clientes del banco (esto si es que se busca evitar usar el
     alias o CBU para las transferencias). */
 
-    cajaSelect(id, plata) {
+    cajaSelect(id, currency) {
         document.getElementById("transferOrigin").innerHTML += `
-                <option value="${id}" id="optionTarjeta${id}">ID ${id} - ${plata}</option>
+                <option value="${id}" id="optionTarjeta${id}">ID ${id} - ${currency}</option>
             `;
     }
 
-    cajaSelect2(id, plata) {
+    cajaSelect2(id, currency) {
         document.getElementById("transferDestinysSelect").innerHTML += `
-                <option value="${id}" id="optionTarjeta${id}">ID ${id} - ${plata}</option>
+                <option value="${id}" id="optionTarjeta${id}">ID ${id} - ${currency}</option>
             `;
     }
 
     /*d. Sección “Compra / Venta de Dólares”: En el select titulado “Cuenta en pesos” el usuario
     debe poder ver todas sus cajas de ahorro en pesos. En el select titulado “Cuenta en dólares”
     lo mismo, pero para las cajas de ahorro en dólares. */
-    cuentaPesos(id, plata) {
+    cuentaPesos(id, currency) {
         document.getElementById("pesosAccount").innerHTML += `
-        <option value="${id}" id="optionCajaPesos${id}">ID ${id} - ${plata}</option>
+        <option value="${id}" id="optionCajaPesos${id}">ID ${id} - ${currency}</option>
     `;
     }
 
-    cuentaDolares(id, plata) {
+    cuentaDolares(id, currency) {
         document.getElementById("dollarsAccount").innerHTML += `
-        <option value="${id}" id="optionCajaPesos${id}">ID ${id} - ${plata}</option>
+        <option value="${id}" id="optionCajaPesos${id}">ID ${id} - ${currency}</option>
     `;
     }
 
@@ -255,9 +258,9 @@ class UserInterface {
 
     /*g. Sección “Inversiones”: En el select titulado “Seleccionar caja de ahorro de origen” el cliente
     debe ver todas sus cajas de ahorro disponibles. */
-    selectInversiones(id, plata) {
+    selectInversiones(id, currency) {
         document.getElementById("investmentAccountSelect").innerHTML += `
-        <option value="${id}" id="optionsavingInversiones${id}">ID ${id} - ${plata}</option>
+        <option value="${id}" id="optionsavingInversiones${id}">ID ${id} - ${currency}</option>
 
     `;
     }
