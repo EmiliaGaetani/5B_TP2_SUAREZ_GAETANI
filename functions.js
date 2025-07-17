@@ -251,8 +251,13 @@ function login() {
         idLogged = resultado;
 
         ui.changeScreen();
-        cuentas()
+        cuentas();
         agregarSelect();
+        agregarSelect2();
+        compraVenta();
+        selectCredito();
+        selectTodasTarjetas();
+        selectInversiones();
 
     } else if (resultado == 0) {
         ui.showModal("Password incorrecta", "escriba nuevamente");
@@ -383,9 +388,9 @@ function compraVenta() {
 //27 e
 function selectCredito() {
     for (let p = 0; p < clients.length; p++) {
-        for (let i = 0; i < clients[p].tarjetaCredito.length; i++) {
-            let proveedorTarjeta = clients[p].tarjetaCredito[i].provider
-            let id = clients[p].tarjetaCredito[i].id
+        for (let i = 0; i < clients[p].creditCards.length; i++) {
+            let proveedorTarjeta = clients[p].creditCards[i].provider
+            let id = clients[p].creditCards[i].id
             ui.selectCredito(id, proveedorTarjeta)
         }
     }
@@ -394,17 +399,17 @@ function selectCredito() {
 //27 f
 function selectTodasTarjetas() {
     for (let p = 0; p < clients.length; p++) {
-        for (let i = 0; i < clients[p].tarjetaCredito.length; i++) {
-            let numero = clients[p].tarjetaCredito[i].cardNumber
-            let id = clients[p].tarjetaCredito[i].id
+        for (let i = 0; i < clients[p].creditCards.length; i++) {
+            let numero = clients[p].creditCards[i].cardNumber
+            let id = clients[p].creditCards[i].id
             ui.selectCargarGasto(id, numero)
         }
     }
     for (let p = 0; p < clients.length; p++) {
         for (let i = 0; i < clients[p].savingsBanks.length; i++) {
-            for (let j = 0; j < clients[p].savingsBanks[i].tarjetaDebito.length; j++) {
-                let numTarjeta = clients[p].savingsBanks[i].tarjetaDebito[j].numero
-                let idTarjeta = clients[p].savingsBanks[i].tarjetaDebito[j].id
+            for (let j = 0; j < clients[p].savingsBanks[i].debitCards.length; j++) {
+                let numTarjeta = clients[p].savingsBanks[i].debitCards[j].numero
+                let idTarjeta = clients[p].savingsBanks[i].debitCards[j].id
                 ui.selectCargarGasto2(idTarjeta, numTarjeta)
             }
         }
@@ -420,5 +425,60 @@ function selectInversiones() {
             let currency = clients[p].savingsBanks[i].currency
             ui.selectInversiones(id, currency)
         }
+    }
+}
+
+
+function verMovimientosTC(creditsCardsId) {
+    console.log("Botón presionado con idCaja:", creditsCardsId);
+    const movimientos = encontrarMovimientoTC(creditsCardsId);
+    if (movimientos.length > 0) {
+        mostrarMovimientos(movimientos);
+    } else {
+        ui.showModal("No hay movimientos para mostrar");
+    }
+}
+
+
+
+
+function mostrarMovimientos(movimientos) {
+    let body = "";
+
+    for (let i = 0; i < movimientos.length; i++) {
+        let mov = movimientos[i];
+
+        body += `
+                <tr>
+                    <td>${mov.id ?? "-"}</td>
+                    <td>${mov.fecha?.toLocaleString?.() ?? "-"}</td>
+                    <td>${mov.nombreTercero ?? "-"}</td>
+                    <td>${mov.montoConsumido ?? "-"}</td>
+                    <td>${mov.cuotas ?? "-"}</td>
+                </tr>
+            `;
+    }
+
+    document.getElementById("movimientosBody").innerHTML = body;
+
+    // Mostrar el modal2 con Bootstrap
+    const modal = new bootstrap.Modal(document.getElementById("modal2"));
+    modal.show();
+}
+
+
+function verOcultar(idInput) {
+    let input = document.getElementById(idInput);
+    input.type = input.type === "password" ? "text" : "password";
+}
+
+function verMovimientosDebito() {
+    const idTarjeta = ui.getTarjetaSelect();
+    const movimientos = encontrarMovimientoTD(idTarjeta).flat();
+
+    if (movimientos.length > 0) {
+        mostrarMovimientos(movimientos);
+    } else {
+        ui.showModal("No hay movimientos para esta tarjeta.");
     }
 }

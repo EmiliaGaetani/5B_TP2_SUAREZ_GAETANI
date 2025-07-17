@@ -106,7 +106,7 @@ class UserInterface {
     el usuario pueda loguearse con otro usuario o registrar un nuevo cliente, sin la necesidad de
     actualizar la página.*/
 
-    clearRegisterInputs(){
+    clearRegisterInputs() {
         document.getElementById("registerName").value = "";
         document.getElementById("registerLastName").value = "";
         document.getElementById("registerDni").value = "";
@@ -138,7 +138,7 @@ class UserInterface {
     g. Sección “Inversiones”: En el select titulado “Seleccionar caja de ahorro de origen” el cliente
     debe ver todas sus cajas de ahorro disponibles.*/
 
- crearTarjetaPesos(currency, saldo, limit, overdraft, alias, CBU, id) {
+    crearTarjetaPesos(currency, saldo, limit, overdraft, alias, CBU, id) {
         document.getElementsByClassName("row")[1].innerHTML += `
 
         <div class="col-md-6 col-lg-4 mb-4">
@@ -285,3 +285,89 @@ class UserInterface {
 }
 
 const ui = new UserInterface()
+
+function actualizarTarjetaDebito() {
+    let idTarjeta = ui.getTarjetaSelect();
+    let tarjeta = encontrarTarjetaD(idTarjeta);
+    //(slice sirve para agarrar una parte)
+    if (tarjeta) {
+        let titulo = document.getElementById("debitCardTitle");
+        let ultimos4 = String(tarjeta.numero).slice(-4);
+        let tipo = tarjeta.tipo ? tarjeta.tipo : "Tarjeta";
+        titulo.textContent = tipo + " •••• " + ultimos4;
+
+        document.getElementById("debitCardHolder").textContent = tarjeta.nombreTarjeta;
+        document.getElementById("debitCardExpiry").textContent = tarjeta.fechaVencimiento.toLocaleDateString();
+
+        let numeroInput = document.getElementById("debitCardNumber");
+        let cvvInput = document.getElementById("debitCardCvv");
+        numeroInput.value = tarjeta.numero;
+        cvvInput.value = tarjeta.codigoSeguridad;
+        numeroInput.type = "password";
+        cvvInput.type = "password";
+
+        // Iconos por defecto (ojo abierto)
+        document.getElementById("debitCardNumberIcon").className = "bi bi-eye";
+        document.getElementById("debitCvvIcon").className = "bi bi-eye";
+    }
+}
+
+// Mostrar/ocultar número de tarjeta
+document.getElementById("toggleDebitCardNumber").addEventListener("click", function () {
+    let input = document.getElementById("debitCardNumber");
+    let icon = document.getElementById("debitCardNumberIcon");
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.className = "bi bi-eye-slash";
+    } else {
+        input.type = "password";
+        icon.className = "bi bi-eye";
+    }
+});
+
+// Mostrar/ocultar código de seguridad
+document.getElementById("toggleDebitCvv").addEventListener("click", function () {
+    let input = document.getElementById("debitCardCvv");
+    let icon = document.getElementById("debitCvvIcon");
+
+    if (input.type === "password") {
+        input.type = "text";
+        icon.className = "bi bi-eye-slash";
+    } else {
+        input.type = "password";
+        icon.className = "bi bi-eye";
+    }
+});
+
+// Botón "Ver movimientos"
+document.getElementById("verMovimientosDebitoBtn").addEventListener("click", function () {
+    let idTarjeta = ui.getTarjetaSelect();
+    let movimientos = encontrarMovimientoTD(idTarjeta);
+
+
+    let lista = [];
+    // instanceof Object comprueba si es un objeto
+    for (let i = 0; i < movimientos.length; i++) {
+        if (movimientos[i] instanceof Object && "length" in movimientos[i]) {
+            for (let j = 0; j < movimientos[i].length; j++) {
+                lista.push(movimientos[i][j]);
+            }
+        } else {
+            lista.push(movimientos[i]);
+        }
+    }
+
+
+    if (lista.length > 0) {
+        mostrarMovimientos(lista);
+    } else {
+        ui.showModal("No hay movimientos para esta tarjeta.");
+    }
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("debitCardAccountSelect").addEventListener("change", actualizarTarjetaDebito);
+    actualizarTarjetaDebito();
+});
