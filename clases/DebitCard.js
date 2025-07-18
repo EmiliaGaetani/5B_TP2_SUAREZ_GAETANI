@@ -15,7 +15,7 @@ g. Historial de consumos de la tarjeta de débito.*/
 let idDebitCard = 1;
 
 class DebitCard {
-    constructor(numero, proveedor, fechaVencimiento, codigoSeguridad, nombreTarjeta, consumptions) {
+    constructor(numero, proveedor, fechaVencimiento, codigoSeguridad, nombreTarjeta, historialConsumos) {
         this.id = idDebitCard;
         idDebitCard++;
         this.numero = numero;

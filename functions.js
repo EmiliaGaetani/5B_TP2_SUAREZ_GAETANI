@@ -439,9 +439,6 @@ function verMovimientosTC(creditsCardsId) {
     }
 }
 
-
-
-
 function mostrarMovimientos(movimientos) {
     let body = "";
 
@@ -462,7 +459,7 @@ function mostrarMovimientos(movimientos) {
     document.getElementById("movimientosBody").innerHTML = body;
 
     // Mostrar el modal2 con Bootstrap
-    const modal = new bootstrap.Modal(document.getElementById("modal2"));
+    const modal = new bootstrap.Modal(document.getElementById("modalaa"));
     modal.show();
 }
 

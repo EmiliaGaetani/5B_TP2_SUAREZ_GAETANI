@@ -88,7 +88,7 @@
                         <div class="tab-pane fade show active" id="loginFormContainer">
                             <form id="loginForm">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="loginDni" placeholder="DNI" required>
+                                    <input type="text" class="form-control" id="loginDni" placeholder="DNI" value="21345654" required>
                                     <label for="loginDni">DNI</label>
                                 </div>
                                 <div class="form-floating mb-3">
@@ -467,6 +467,35 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body p-3" id="modalBody">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalaa" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Título del modal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body p-3" id="modalBody">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Fecha</th>
+                                <th>Nombre Tercero</th>
+                                <th>Monto Consumido</th>
+                                <th>Cuotas</th>
+                            </tr>
+                        </thead>
+                        <tbody id="movimientosBody">
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

@@ -152,7 +152,7 @@ class UserInterface {
                             <p class="card-text mb-1"><strong>Alias:</strong>${alias}</p>
                             <p class="card-text mb-3"><strong>CBU:</strong>${CBU}</p>
                             <div class="d-grid">
-                                <button onclick="verMovimientos(${id})" class="btn btn-outline-primary btn-sm">Ver movimientos</button>
+                                <button onclick="verMovimientosTC(${id})" class="btn btn-outline-primary btn-sm">Ver movimientos</button>
                             </div>
                         </div>
                     </div>
@@ -173,7 +173,7 @@ class UserInterface {
                             <p class="card-text mb-1"><strong>Alias:</strong> ${alias}</p>
                             <p class="card-text mb-3"><strong>CBU:</strong> ${CBU}</p>
                             <div class="d-grid">
-                                <button onclick="verMovimientos(${id})" class="btn btn-outline-primary btn-sm">Ver movimientos</button>
+                                <button onclick="verMovimientosTC(${id})" class="btn btn-outline-primary btn-sm">Ver movimientos</button>
                             </div>
                         </div>
                     </div>
